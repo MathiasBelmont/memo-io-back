@@ -11,6 +11,4 @@ COPY src ./src
 
 EXPOSE 8080
 
-CMD ["tail", "-f", "/dev/null"]
-# Comente a linha acima e descomente a linha abaixo caso queira que a aplicação seja executada automaticamente
-# CMD ["mvn", "spring-boot:run"]
+CMD ["mvn", "spring-boot:run"]
