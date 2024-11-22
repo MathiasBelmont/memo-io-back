@@ -1,21 +1,23 @@
 package br.aluno.ueg.memo_io_back.mappers;
 
 import br.aluno.ueg.memo_io_back.models.NoteModel;
-import br.aluno.ueg.memo_io_back.models.dtos.NoteDTO;
+import br.aluno.ueg.memo_io_back.models.dtos.NoteCreateDTO;
+import br.aluno.ueg.memo_io_back.models.dtos.NoteUpdateDTO;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Component;
 
 @Component
 public class NoteMapper {
-    public NoteModel toModel(NoteDTO noteDTO) {
+    public NoteModel toModel(@Valid NoteCreateDTO noteUpdateDTO) {
         NoteModel noteModel = new NoteModel();
-        noteModel.setTitle(noteDTO.getTitle());
-        noteModel.setContent(noteDTO.getContent());
+        noteModel.setTitle(noteUpdateDTO.getTitle());
+        noteModel.setContent(noteUpdateDTO.getContent());
         return noteModel;
     }
-    public NoteDTO toDTO(NoteModel noteModel) {
-        NoteDTO noteDTO = new NoteDTO();
-        noteDTO.setTitle(noteModel.getTitle());
-        noteDTO.setContent(noteModel.getContent());
-        return noteDTO;
+    public NoteUpdateDTO toDTO(NoteModel noteModel) {
+        NoteUpdateDTO noteUpdateDTO = new NoteUpdateDTO();
+        noteUpdateDTO.setTitle(noteModel.getTitle());
+        noteUpdateDTO.setContent(noteModel.getContent());
+        return noteUpdateDTO;
     }
 }

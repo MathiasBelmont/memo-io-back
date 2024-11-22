@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class NoteDTO {
+public class NoteUpdateDTO {
     @Schema(description = "Título da nota")
     private String title;
 
