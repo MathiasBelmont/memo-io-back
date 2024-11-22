@@ -7,17 +7,17 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "USER")
+@Table(name = "APP_USER")
 public class UserModel {
     @Id
     @SequenceGenerator(
-            name = "user_sequence",
+            name = "app_user_sequence",
             sequenceName = "user_sequence_bd",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
+            generator = "app_user_sequence"
     )
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
