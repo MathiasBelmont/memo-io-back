@@ -1,48 +1,77 @@
 package br.aluno.ueg.memo_io_back.services;
 
 import br.aluno.ueg.memo_io_back.models.UserModel;
-import br.aluno.ueg.memo_io_back.repositories.UserRepository; // Assuming you have a UserRepository
+import br.aluno.ueg.memo_io_back.repositories.UserRepository;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
-public class UserService implements IUserService {
+public class UserService {
 
     @Autowired
-    private UserRepository repository; // Updated to UserRepository
+    private UserRepository repository;
 
-    @Override
-    public UserModel create(UserModel user) {
-        user.setId(null);
-        return repository.save(user);
+    public UserModel create(@Valid UserModel userModel) {
+        return repository.save(userModel);
     }
 
-    @Override
     public List<UserModel> getAll() {
         return repository.findAll();
     }
 
-    @Override
-    public UserModel get(Long id) {
-        return repository.findById(id).orElse(null); // Assuming you have a method to find by ID
+    public Optional<UserModel> getById(Long id) {
+        return validateUserExists(id);
     }
 
-    @Override
-    public UserModel updateById(Long id) {
-        // Implement the update logic here
-        return null;
+    public Optional<UserModel> updateById(Long id, @Valid UserModel userUpdate) {
+        Optional<UserModel> userOpt = validateUserExists(id);
+        if (userOpt.isPresent()) {
+            UserModel user = userOpt.get();
+            updateDataDB(user, userUpdate);
+            repository.save(user);
+            return Optional.of(user);
+        }
+        return Optional.empty();
     }
 
-    @Override
-    public UserModel deleteById(Long id) {
-        // Implement the delete logic here
-        return null;
+    public Optional<UserModel> deleteById(Long id) {
+        Optional<UserModel> userOpt = validateUserExists(id);
+        if (userOpt.isPresent()) {
+            UserModel user = userOpt.get();
+            repository.delete(user);
+            return Optional.of(user);
+        }
+        return Optional.empty();
     }
 
-    @Override
-    public void updateBD(UserModel userOld, UserModel userNew) {
-        // Implement the update logic here
+    public Optional<UserModel> validateUserExists(Long id) {
+        UserModel userModel = null;
+        if (Objects.nonNull(id)) {
+            userModel = this.internalGet(id);
+        }
+        return Optional.ofNullable(userModel);
+    }
+
+    public UserModel internalGet(Long id) {
+        Optional<UserModel> userModel = repository.findById(id);
+        return userModel.orElse(null);
+    }
+
+    public void updateDataDB(@Valid UserModel user, @Valid UserModel userUpdate) {
+        if (Objects.nonNull(userUpdate.getName())) {
+            user.setName(userUpdate.getName());
+        }
+        if (Objects.nonNull(userUpdate.getEmail())) {
+            user.setEmail(userUpdate.getEmail());
+        }
+        if (Objects.nonNull(userUpdate.getPassword())) {
+            user.setPassword(userUpdate.getPassword());
+        }
     }
 }
