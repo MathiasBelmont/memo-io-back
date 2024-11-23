@@ -2,45 +2,73 @@ package br.aluno.ueg.memo_io_back.services;
 
 import br.aluno.ueg.memo_io_back.models.NoteModel;
 import br.aluno.ueg.memo_io_back.repositories.NoteRepository;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
-public class NoteService implements INoteService {
+public class NoteService {
 
     @Autowired
     private NoteRepository repository;
 
-    @Override
-    public NoteModel create(NoteModel note) {
-        note.setId(null);
+    public NoteModel create(@Valid NoteModel note) {
         return repository.save(note);
     }
 
-    @Override
     public List<NoteModel> getAll() {
         return repository.findAll();
     }
 
-    @Override
-    public NoteModel get(Long id) {
-        return null;
+    public Optional<NoteModel> getById(Long id) {
+        return validateNoteExists(id);
     }
 
-    @Override
-    public NoteModel updateById(Long id) {
-        return null;
+    public Optional<NoteModel> updateById(Long id, @Valid NoteModel noteUpdate) {
+        Optional<NoteModel> noteOpt = validateNoteExists(id);
+        if (noteOpt.isPresent()) {
+            NoteModel note = noteOpt.get();
+            updateDataDB(note, noteUpdate);
+            repository.save(note);
+            return Optional.of(note);
+        }
+        return Optional.empty();
     }
 
-    @Override
-    public NoteModel deleteById(Long id) {
-        return null;
+    public Optional<NoteModel> deleteById(Long id) {
+        Optional<NoteModel> noteOpt = validateNoteExists(id);
+        if (noteOpt.isPresent()) {
+            NoteModel note = noteOpt.get();
+            repository.delete(note);
+            return Optional.of(note);
+        }
+        return Optional.empty();
     }
 
-    @Override
-    public void updateBD(NoteModel noteOld, NoteModel noteNew) {
+    public Optional<NoteModel> validateNoteExists(Long id) {
+        NoteModel noteModel = null;
+        if (Objects.nonNull(id)) {
+            noteModel = this.internalGet(id);
+        }
+        return Optional.ofNullable(noteModel);
+    }
 
+    public NoteModel internalGet(Long id) {
+        Optional<NoteModel> noteModel = repository.findById(id);
+        return noteModel.orElse(null);
+    }
+
+    public void updateDataDB(@Valid NoteModel note, @Valid NoteModel noteUpdate) {
+        if (Objects.nonNull(noteUpdate.getTitle())) {
+            note.setTitle(noteUpdate.getTitle());
+        }
+        if (Objects.nonNull(noteUpdate.getContent())) {
+            note.setContent(noteUpdate.getContent());
+        }
     }
 }
