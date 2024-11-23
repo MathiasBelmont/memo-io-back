@@ -1,42 +1,44 @@
 package br.aluno.ueg.memo_io_back.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Data
 @Entity
 @Table(name = "NOTE")
 public class NoteModel {
+    
     @Id
-    @SequenceGenerator(
-            name = "note_sequence",
-            sequenceName = "note_sequence_bd",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "note_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "creation_date", updatable = false, nullable = false)
-    private LocalDate creationDate;
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 100)
     @Column(name = "title", nullable = false)
     private String title;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 5000)
     @Column(name = "content", nullable = false)
     private String content;
 
+    @JsonBackReference
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "author", updatable = false, nullable = false)
+    @JoinColumn(name = "author_id", updatable = false, nullable = false)
     private UserModel author;
 }
