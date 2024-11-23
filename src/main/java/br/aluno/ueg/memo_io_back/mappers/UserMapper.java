@@ -1,23 +1,28 @@
 package br.aluno.ueg.memo_io_back.mappers;
 
 import br.aluno.ueg.memo_io_back.models.UserModel;
-import br.aluno.ueg.memo_io_back.models.dtos.UserDTO;
+import br.aluno.ueg.memo_io_back.models.dtos.UserCreateDTO;
+import br.aluno.ueg.memo_io_back.models.dtos.UserUpdateDTO;
+import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
-    public UserModel toModel(UserDTO userDTO) {
+
+    public UserModel toUserModel(@Valid UserCreateDTO userCreateDTO) {
         UserModel userModel = new UserModel();
-        userModel.setName(userDTO.getName());
-        userModel.setEmail(userDTO.getEmail());
-        userModel.setPassword(userDTO.getPassword());
+        userModel.setName(userCreateDTO.getName());
+        userModel.setEmail(userCreateDTO.getEmail());
+        userModel.setPassword(userCreateDTO.getPassword());
         return userModel;
     }
-    public UserDTO toDTO(UserModel userModel) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName(userModel.getName());
-        userDTO.setEmail(userModel.getEmail());
-        userDTO.setPassword(userModel.getPassword());
-        return userDTO;
+
+    public UserModel toUserModel(@Valid UserUpdateDTO userUpdateDTO) {
+        UserModel userModel = new UserModel();
+        userModel.setName(userUpdateDTO.getName());
+        userModel.setEmail(userUpdateDTO.getEmail());
+        userModel.setPassword(userUpdateDTO.getPassword());
+        return userModel;
     }
 }
