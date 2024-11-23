@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "${api.version}/memo-io-back/note")
+@RequestMapping(path = "/memo-io-back/note")
 public class NoteController {
 
     @Autowired

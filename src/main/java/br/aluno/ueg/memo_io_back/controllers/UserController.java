@@ -1,9 +1,9 @@
 package br.aluno.ueg.memo_io_back.controllers;
 
-import br.aluno.ueg.memo_io_back.mappers.UserMapper; // Assuming you have a UserMapper
-import br.aluno.ueg.memo_io_back.models.UserModel; // Changed to UserModel
+import br.aluno.ueg.memo_io_back.mappers.UserMapper;
+import br.aluno.ueg.memo_io_back.models.UserModel;
 import br.aluno.ueg.memo_io_back.models.dtos.UserDTO;
-import br.aluno.ueg.memo_io_back.services.UserService; // Changed to UserService
+import br.aluno.ueg.memo_io_back.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "${api.version}/memo-io-back/user")
+@RequestMapping(path = "/memo-io-back/user")
 public class UserController {
 
     @Autowired
