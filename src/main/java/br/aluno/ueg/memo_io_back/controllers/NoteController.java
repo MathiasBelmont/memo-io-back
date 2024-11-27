@@ -75,6 +75,20 @@ public class NoteController {
         }
     }
 
+    @GetMapping("/author/{id}")
+    @Operation(description = "Endpoint para listar todas as notas de um autor pelo ID")
+    public ResponseEntity<Object> getAllByAuthorId(@PathVariable Long id) {
+        try {
+            List<NoteModel> notes = noteService.getAllByAuthorId(id);
+            if (notes == null || notes.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
+            }
+            return ResponseEntity.ok(notes);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar os dados de uma nota pelo ID")
     public ResponseEntity<Object> updateById(@PathVariable Long id, @Valid @RequestBody NoteUpdateDTO noteUpdateDTO) {
