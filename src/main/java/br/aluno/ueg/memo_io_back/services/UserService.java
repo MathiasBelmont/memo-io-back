@@ -18,7 +18,17 @@ public class UserService {
     private UserRepository repository;
 
     public UserModel create(@Valid UserModel userModel) {
+        Optional<UserModel> existingUser = validateUserExistsByEmail(userModel.getEmail());
+
+        if (existingUser.isPresent()) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
         return repository.save(userModel);
+    }
+
+    private Optional<UserModel> validateUserExistsByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
     public List<UserModel> getAll() {
