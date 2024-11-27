@@ -29,6 +29,10 @@ public class NoteService {
         return validateNoteExists(id);
     }
 
+    public List<NoteModel> getAllByAuthorId(Long userId) {
+        return repository.findByAuthorId(userId);
+    }
+
     public Optional<NoteModel> updateById(Long id, @Valid NoteModel noteUpdate) {
         Optional<NoteModel> noteOpt = validateNoteExists(id);
         if (noteOpt.isPresent()) {
