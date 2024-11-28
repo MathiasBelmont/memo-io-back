@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/memo-io-back/user")
+@RequestMapping(path = "/memo-io-back/users")
 public class UserController {
 
     @Autowired
