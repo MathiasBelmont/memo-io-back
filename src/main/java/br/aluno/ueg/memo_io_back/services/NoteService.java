@@ -74,5 +74,8 @@ public class NoteService {
         if (Objects.nonNull(noteUpdate.getContent())) {
             note.setContent(noteUpdate.getContent());
         }
+        if (Objects.nonNull(noteUpdate.getColor())) {
+            note.setColor(noteUpdate.getColor());
+        }
     }
 }

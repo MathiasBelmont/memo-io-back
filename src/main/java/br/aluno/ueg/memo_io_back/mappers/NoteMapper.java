@@ -20,6 +20,7 @@ public class NoteMapper {
         NoteModel noteModel = new NoteModel();
         noteModel.setTitle(noteCreateDTO.getTitle());
         noteModel.setContent(noteCreateDTO.getContent());
+        noteModel.setColor(noteCreateDTO.getColor());
         UserModel author = userService.internalGet(noteCreateDTO.getAuthorId());
         noteModel.setAuthor(author);
         return noteModel;
@@ -29,6 +30,7 @@ public class NoteMapper {
         NoteModel noteModel = new NoteModel();
         noteModel.setTitle(noteUpdateDTO.getTitle());
         noteModel.setContent(noteUpdateDTO.getContent());
+        noteModel.setColor(noteUpdateDTO.getColor());
         return noteModel;
     }
 }

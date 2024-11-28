@@ -14,4 +14,8 @@ public class NoteUpdateDTO {
     @Schema(description = "Conteúdo da nota", example = "Este é um exemplo de nota")
     @Size(max = 5000, message = "O conteúdo da nota não pode ter mais que 5000 caracteres")
     private String content;
+
+    @Schema(description = "Cor da nota", example = "yellow")
+    @Size(max = 20, message = "A cor da nota é obrigatória")
+    private String color;
 }
