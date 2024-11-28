@@ -36,6 +36,11 @@ public class NoteModel {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @NotBlank
+    @Size(max = 20)
+    @Column(name = "color", nullable = false)
+    private String color;
+
     @JsonBackReference
     @NotNull
     @ManyToOne
