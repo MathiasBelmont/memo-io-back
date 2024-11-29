@@ -33,7 +33,7 @@ public class NoteModel {
 
     @NotBlank
     @Size(max = 5000)
-    @Column(name = "content", nullable = false)
+    @Column(length = 5000, name = "content", nullable = false)
     private String content;
 
     @NotBlank
