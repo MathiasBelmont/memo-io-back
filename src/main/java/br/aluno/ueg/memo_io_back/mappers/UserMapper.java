@@ -2,6 +2,7 @@ package br.aluno.ueg.memo_io_back.mappers;
 
 import br.aluno.ueg.memo_io_back.models.UserModel;
 import br.aluno.ueg.memo_io_back.models.dtos.UserCreateDTO;
+import br.aluno.ueg.memo_io_back.models.dtos.UserLoginDTO;
 import br.aluno.ueg.memo_io_back.models.dtos.UserUpdateDTO;
 import jakarta.validation.Valid;
 
@@ -23,6 +24,13 @@ public class UserMapper {
         userModel.setName(userUpdateDTO.getName());
         userModel.setEmail(userUpdateDTO.getEmail());
         userModel.setPassword(userUpdateDTO.getPassword());
+        return userModel;
+    }
+
+    public UserModel toUserModel(@Valid UserLoginDTO userLoginDTO) {
+        UserModel userModel = new UserModel();
+        userModel.setEmail(userLoginDTO.getEmail());
+        userModel.setPassword(userLoginDTO.getPassword());
         return userModel;
     }
 }
