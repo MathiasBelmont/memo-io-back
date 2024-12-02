@@ -84,4 +84,15 @@ public class UserService {
             user.setPassword(userUpdate.getPassword());
         }
     }
+
+    public Optional<UserModel> login(String email, String password) {
+        Optional<UserModel> userOpt = repository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            UserModel user = userOpt.get();
+            if (user.getPassword().equals(password)) {
+                return Optional.of(user);
+            }
+        }
+        return Optional.empty();
+    }
 }
