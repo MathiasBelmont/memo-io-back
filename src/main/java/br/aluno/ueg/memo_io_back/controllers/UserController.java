@@ -3,6 +3,7 @@ package br.aluno.ueg.memo_io_back.controllers;
 import br.aluno.ueg.memo_io_back.mappers.UserMapper;
 import br.aluno.ueg.memo_io_back.models.UserModel;
 import br.aluno.ueg.memo_io_back.models.dtos.UserCreateDTO;
+import br.aluno.ueg.memo_io_back.models.dtos.UserLoginDTO;
 import br.aluno.ueg.memo_io_back.models.dtos.UserUpdateDTO;
 import br.aluno.ueg.memo_io_back.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -86,6 +87,21 @@ public class UserController {
     public ResponseEntity<Object> deleteById(@PathVariable("id") long id) {
         try {
             Optional<UserModel> user = userService.deleteById(id);
+            if (user.isPresent()) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    @Operation(description = "Endpoint para fazer login")
+    public ResponseEntity<Object> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+        try {
+            Optional<UserModel> user = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
             if (user.isPresent()) {
                 return ResponseEntity.ok(user);
             } else {
