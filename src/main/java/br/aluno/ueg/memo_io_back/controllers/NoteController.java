@@ -90,6 +90,24 @@ public class NoteController {
         }
     }
 
+    @GetMapping("/author/{authorId}/search")
+    @Operation(description = "Endpoint para buscar notas de um autor pelo conteúdo")
+    public ResponseEntity<Object> searchByAuthorAndContent(@PathVariable Long authorId, @RequestParam("content") String content) {
+        try {
+            Optional<UserModel> author = userService.validateUserExists(authorId);
+            if (author.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Autor não encontrado.");
+            }
+            List<NoteModel> notes = noteService.searchByAuthorAndContent(authorId, content);
+            if (notes.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhuma nota encontrada com o conteúdo fornecido para este autor.");
+            }
+            return ResponseEntity.ok(notes);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
     @PutMapping("/{id}")
     @Operation(description = "Endpoint para atualizar os dados de uma nota pelo ID")
     public ResponseEntity<Object> updateById(@PathVariable Long id, @Valid @RequestBody NoteUpdateDTO noteUpdateDTO) {

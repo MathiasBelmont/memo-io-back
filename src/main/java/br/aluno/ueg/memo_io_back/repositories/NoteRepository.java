@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NoteRepository extends JpaRepository<NoteModel, Long> {
     List<NoteModel> findByAuthorId(Long id);
+    List<NoteModel> findByAuthorIdAndContentContainingIgnoreCase(Long authorId, String content);
 }

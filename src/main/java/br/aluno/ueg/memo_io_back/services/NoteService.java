@@ -33,6 +33,10 @@ public class NoteService {
         return repository.findByAuthorId(userId);
     }
 
+    public List<NoteModel> searchByAuthorAndContent(Long authorId, String content) {
+        return repository.findByAuthorIdAndContentContainingIgnoreCase(authorId, content);
+    }
+
     public Optional<NoteModel> updateById(Long id, @Valid NoteModel noteUpdate) {
         Optional<NoteModel> noteOpt = validateNoteExists(id);
         if (noteOpt.isPresent()) {
